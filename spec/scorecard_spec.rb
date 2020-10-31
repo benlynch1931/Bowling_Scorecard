@@ -26,6 +26,30 @@ describe ScoreCard do
   |  10   |   1  |      3       |             |  nil  |
   |  10   |   2  |      1       |     65      |  nil  |
 )
+  complex_scorecard = %Q(
+  | frame | roll | knocked pins | total score | bonus |
+  |-------|------|--------------|-------------|-------|
+  |   1   |   1  |      5       |             |  nil  |
+  |   1   |   2  |      5       |     13      |  nil  |
+  |   2   |   1  |      3       |             |  nil  |
+  |   2   |   2  |      1       |     17      |  nil  |
+  |   3   |   1  |     10       |             |  nil  |
+  |   3   |   2  |              |     37      |  nil  |
+  |   4   |   1  |      5       |             |  nil  |
+  |   4   |   2  |      5       |     50      |  nil  |
+  |   5   |   1  |      3       |             |  nil  |
+  |   5   |   2  |      1       |     54      |  nil  |
+  |   6   |   1  |     10       |             |  nil  |
+  |   6   |   2  |              |     74      |  nil  |
+  |   7   |   1  |      5       |             |  nil  |
+  |   7   |   2  |      5       |     87      |  nil  |
+  |   8   |   1  |      3       |             |  nil  |
+  |   8   |   2  |      1       |     91      |  nil  |
+  |   9   |   1  |     10       |             |  nil  |
+  |   9   |   2  |              |    102      |  nil  |
+  |  10   |   1  |      0       |             |  nil  |
+  |  10   |   2  |      1       |    103      |  nil  |
+)
 
   context ' #initialize' do
 
@@ -37,8 +61,8 @@ describe ScoreCard do
       frames = subject.frames
       frames.each_with_index do |frame, idx|
         expect(frame[:frame]).to eq(idx + 1)
-        expect(frame[:roll_one]).to eq({pins: nil, score: nil, bonus: '', bonus_score: nil, notes: ''})
-        expect(frame[:roll_one]).to eq({pins: nil, score: nil, bonus: '', bonus_score: nil, notes: ''})
+        expect(frame[:roll_one]).to eq({pins: '  ', score: 0, bonus: '', bonus_score: 0, notes: ''})
+        expect(frame[:roll_one]).to eq({pins: '  ', score: 0, bonus: '', bonus_score: 0, notes: ''})
       end
     end
   end
@@ -86,10 +110,10 @@ describe ScoreCard do
       it 'iterates through frames like a real game' do
         allow(subject).to receive(:gets).and_return('4', '5', '3', '1')
         subject.controller
-        expect(subject.frames[0][:roll_one]).to eq({pins: 4, score: 4, bonus: '', bonus_score: nil, notes: ''})
-        expect(subject.frames[0][:roll_two]).to eq({pins: 5, score: 5, bonus: '', bonus_score: nil, notes: ''})
-        expect(subject.frames[1][:roll_one]).to eq({pins: 3, score: 3, bonus: '', bonus_score: nil, notes: ''})
-        expect(subject.frames[1][:roll_two]).to eq({pins: 1, score: 1, bonus: '', bonus_score: nil, notes: ''})
+        expect(subject.frames[0][:roll_one]).to eq({pins: 4, score: 4, bonus: '', bonus_score: 0, notes: ''})
+        expect(subject.frames[0][:roll_two]).to eq({pins: 5, score: 5, bonus: '', bonus_score: 0, notes: ''})
+        expect(subject.frames[1][:roll_one]).to eq({pins: 3, score: 3, bonus: '', bonus_score: 0, notes: ''})
+        expect(subject.frames[1][:roll_two]).to eq({pins: 1, score: 1, bonus: '', bonus_score: 0, notes: ''})
       end
     end
   end
@@ -99,6 +123,12 @@ describe ScoreCard do
       allow(subject).to receive(:gets).and_return('4', '5', '3', '1', '4', '5', '3', '1', '4', '5', '3', '1', '4', '5', '3', '1', '4', '5', '3', '1')
       subject.controller
       expect { subject.scorecard }.to output(simple_scorecard).to_stdout
+    end
+
+    it 'prints all info about frames. INCL. SPARE/STRIKE' do
+      allow(subject).to receive(:gets).and_return('5', '5', '3', '1', '10', '5', '5', '3', '1', '10', '5', '5', '3', '1', '10', '0', '1')
+      subject.controller
+      expect { subject.scorecard }.to output(complex_scorecard).to_stdout
     end
   end
 
