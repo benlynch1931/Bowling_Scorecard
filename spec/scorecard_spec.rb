@@ -14,6 +14,14 @@ describe ScoreCard do
     it 'responds when called' do
       expect(subject).to respond_to(:controller)
     end
+
+    context 'when strike rolled' do
+
+      it 'adds 10 points to the score' do
+        allow(subject).to receive(:gets).and_return('10')
+        expect(subject.controller).to eq 10
+      end
+    end
   end
 
   pending ' #spare'
