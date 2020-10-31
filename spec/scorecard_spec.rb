@@ -2,6 +2,13 @@ require 'scorecard'
 
 describe ScoreCard do
 
+  context ' #initialize' do
+
+    it 'instantiates with a score variable' do
+      expect(subject.score).to eq 0
+    end
+  end
+
   context ' #controller' do
 
     it 'responds when called' do
