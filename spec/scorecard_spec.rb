@@ -38,6 +38,15 @@ describe ScoreCard do
         expect(subject.frames[0][:roll_one][:pins]).to eq 10
       end
     end
+
+    context 'roll_one' do
+      it 'adds pins and score to frames array' do
+        allow(subject).to receive(:gets).and_return('5')
+        subject.controller
+        expect(subject.frames[0][:roll_one][:pins]).to eq 5
+        expect(subject.frames[0][:roll_one][:score]).to eq 5
+      end
+    end
   end
 
   pending ' #spare'
