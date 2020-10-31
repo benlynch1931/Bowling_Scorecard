@@ -19,7 +19,8 @@ class ScoreCard
     user_roll = gets.chomp
     case user_roll
     when '10'
-      @score += 10
+      @frames[0][:roll_one][:pins] = 10
+      @frames[0][:roll_one][:score] = 10
     end
   end
 

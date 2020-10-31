@@ -26,9 +26,16 @@ describe ScoreCard do
 
     context 'when strike rolled' do
 
-      it 'adds 10 points to the score' do
+      it 'adds 10 points to the frames array' do
         allow(subject).to receive(:gets).and_return('10')
-        expect(subject.controller).to eq 10
+        subject.controller
+        expect(subject.frames[0][:roll_one][:score]).to eq 10
+      end
+
+      it 'adds 10 pins to the frames array' do
+        allow(subject).to receive(:gets).and_return('10')
+        subject.controller
+        expect(subject.frames[0][:roll_one][:pins]).to eq 10
       end
     end
   end
