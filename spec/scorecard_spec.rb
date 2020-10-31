@@ -12,8 +12,8 @@ describe ScoreCard do
       frames = subject.frames
       frames.each_with_index do |frame, idx|
         expect(frame[:frame]).to eq(idx)
-        expect(frame[:roll_one]).to eq({pins: nil, score: nil, bonus: nil, notes: ''})
-        expect(frame[:roll_one]).to eq({pins: nil, score: nil, bonus: nil, notes: ''})
+        expect(frame[:roll_one]).to eq({pins: nil, score: nil, bonus: '', bonus_score: nil, notes: ''})
+        expect(frame[:roll_one]).to eq({pins: nil, score: nil, bonus: '', bonus_score: nil, notes: ''})
       end
     end
   end
@@ -45,6 +45,15 @@ describe ScoreCard do
         subject.controller
         expect(subject.frames[0][:roll_one][:pins]).to eq 5
         expect(subject.frames[0][:roll_one][:score]).to eq 5
+      end
+    end
+
+    context 'roll_two' do
+      it 'adds pins and score to frames array' do
+        allow(subject).to receive(:gets).and_return('0','5')
+        subject.controller
+        expect(subject.frames[0][:roll_two][:pins]).to eq 5
+        expect(subject.frames[0][:roll_two][:score]).to eq 5
       end
     end
   end
