@@ -2,6 +2,17 @@ class ScoreCard
 
   def initialize
     @score = 0
+    @frames = []
+    10.times { |each|
+      @frames.push(
+        {
+          frame: each,
+          roll_one: {pins: nil, score: nil, bonus: nil, notes: ''},
+          roll_two: {pins: nil, score: nil, bonus: nil, notes: ''}
+          }
+        )
+    }
+
   end
 
   def controller
@@ -12,5 +23,5 @@ class ScoreCard
     end
   end
 
-  attr_reader :score
+  attr_reader :score, :frames
 end

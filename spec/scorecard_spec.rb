@@ -7,6 +7,15 @@ describe ScoreCard do
     it 'instantiates with a score variable' do
       expect(subject.score).to eq 0
     end
+
+    it 'instanties with a frames array' do
+      frames = subject.frames
+      frames.each_with_index do |frame, idx|
+        expect(frame[:frame]).to eq(idx)
+        expect(frame[:roll_one]).to eq({pins: nil, score: nil, bonus: nil, notes: ''})
+        expect(frame[:roll_one]).to eq({pins: nil, score: nil, bonus: nil, notes: ''})
+      end
+    end
   end
 
   context ' #controller' do
